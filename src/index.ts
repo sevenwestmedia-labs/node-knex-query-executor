@@ -13,7 +13,6 @@ export type TableNames<TTableNames extends string> = {
 type QueryOptions<
     QueryArguments,
     TTableNames extends string,
-    Scope extends {},
     Services extends {}
 > = Services & {
     args: QueryArguments
@@ -27,61 +26,65 @@ type QueryOptions<
     ) => Knex.QueryBuilder | Knex.Raw
     tables: Tables<TTableNames>
     tableNames: TableNames<TTableNames>
-    queryExecutor: QueryExecutor<TTableNames, Scope, Services>
+    queryExecutor: QueryExecutor<TTableNames, Services>
 }
 export interface Query<
     QueryArguments,
     QueryResult,
     TableNames extends string,
-    Scope extends object,
     Services extends object
 > {
-    (
-        options: QueryOptions<QueryArguments, TableNames, Scope, Services>
-    ): PromiseLike<QueryResult>
+    (options: QueryOptions<QueryArguments, TableNames, Services>): PromiseLike<
+        QueryResult
+    >
 }
 
-export interface QueryWrapper<Scope> {
-    (builder: Knex.QueryBuilder, scope: Scope): Knex.QueryBuilder
-    (builder: Knex.Raw, scope: Scope): Knex.Raw
+export interface QueryWrapper {
+    (builder: Knex.QueryBuilder): Knex.QueryBuilder
+    (builder: Knex.Raw): Knex.Raw
 }
 
 export class QueryExecutor<
     TTableNames extends string,
-    Scope extends object,
     Services extends object
 > {
-    kind: 'query-executor' | 'unit-of-work-query-executor' = 'query-executor'
     protected tables: Tables<TTableNames>
-    private wrap: QueryWrapper<Scope>
+    private wrap: QueryWrapper
 
     constructor(
+        public kind: 'read-query-executor' | 'unit-of-work-query-executor',
         protected knex: Knex | Knex.Transaction,
-        protected scope: Scope,
         protected services: Services,
         protected tableNames: TableNames<TTableNames>,
-        wrapQuery?: QueryWrapper<Scope>
+        wrapQuery?: QueryWrapper
     ) {
         this.wrap = wrapQuery || ((b: any) => b)
 
         this.tables = Object.keys(tableNames).reduce<any>((acc, tableName) => {
-            acc[tableName] = () => this.wrap(knex(tableName), scope)
+            acc[tableName] = () => this.wrap(knex(tableName))
 
             return acc
         }, {})
     }
 
+    /** Helper to create type safe queries */
+    createQuery<QueryArguments, QueryResult>(
+        query: Query<QueryArguments, QueryResult, TTableNames, Services>
+    ): Query<QueryArguments, QueryResult, TTableNames, Services> {
+        return query
+    }
+
     execute<Result, Args>(
-        query: Query<Args, Result, TTableNames, Scope, Services>
+        query: Query<Args, Result, TTableNames, Services>
     ): { withArgs: (args: Args) => Promise<Result> } {
         return {
             withArgs: async args =>
                 await query({
                     query: createQuery =>
-                        this.wrap(createQuery(this.knex) as any, this.scope),
+                        this.wrap(createQuery(this.knex) as any),
                     queryExecutor: this,
                     wrapQuery: (builder: Knex.QueryBuilder) =>
-                        this.wrap(builder, this.scope),
+                        this.wrap(builder),
                     tables: this.tables,
                     args,
                     tableNames: this.tableNames,
@@ -93,59 +96,50 @@ export class QueryExecutor<
 
 export class UnitOfWorkQueryExecutor<
     TTableNames extends string,
-    Scope extends object,
     Services extends object
-> extends QueryExecutor<TTableNames, Scope, Services> {
+> extends QueryExecutor<TTableNames, Services> {
     // Unit of work executor can be used as a normal query executor
-    kind: 'unit-of-work-query-executor' = 'unit-of-work-query-executor'
+    kind!: 'unit-of-work-query-executor'
 
     constructor(
         protected knex: Knex.Transaction,
-        scope: Scope,
         services: Services,
         tableNames: TableNames<TTableNames>
     ) {
-        super(knex, scope, services, tableNames)
+        super('unit-of-work-query-executor', knex, services, tableNames)
     }
 }
 
 export class ReadQueryExecutor<
     TTableNames extends string,
-    Scope extends object,
     Services extends object
-> extends QueryExecutor<TTableNames, Scope, Services> {
-    kind: 'query-executor' = 'query-executor'
+> extends QueryExecutor<TTableNames, Services> {
+    kind!: 'read-query-executor'
 
     constructor(
-        knex: Knex | Knex.Transaction,
-        scope: Scope,
+        knex: Knex,
         services: Services,
         tableNames: TableNames<TTableNames>
     ) {
-        super(knex, scope, services, tableNames)
+        super('read-query-executor', knex, services, tableNames)
     }
 
     /**
      * Executes some work inside a transaction
-     * @param unit a callback which contains the unit to be executed
+     * @param work a callback which contains the unit to be executed
      * The transaction will be commited if promise resolves, rolled back if rejected
      * @example executor.unitOfWork(unit => unit.executeQuery(insertBlah, blah))
      */
     unitOfWork<T>(
-        unit: (
-            executor: UnitOfWorkQueryExecutor<TTableNames, Scope, Services>
+        work: (
+            executor: UnitOfWorkQueryExecutor<TTableNames, Services>
         ) => Promise<T>
     ): PromiseLike<any> {
-        return this.knex.transaction(async trx => {
+        return this.knex.transaction(trx => {
             // knex is aware of promises, and will automatically commit
             // or reject based on this callback promise
-            return unit(
-                new UnitOfWorkQueryExecutor(
-                    trx,
-                    this.scope,
-                    this.services,
-                    this.tableNames
-                )
+            return work(
+                new UnitOfWorkQueryExecutor(trx, this.services, this.tableNames)
             )
         })
     }

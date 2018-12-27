@@ -1,7 +1,7 @@
 {
-    "name": "node-query-executor",
+    "name": "node-knex-query-executor",
     "version": "0.1.0",
-    "description": "TypeScript first encapsulation and reusability of database queries (JS version of Query Object Pattern really).",
+    "description": "TypeScript first encapsulation and reusability of knex database queries (JS version of Query Object Pattern really).",
     "main": "dist/index.js",
     "scripts": {
         "build": "tsc -p tsconfig.build.json",
