@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Typescript: Typescript expected failures 1`] = `
+"src/type-safety-fixtures/query-arguments.ts(23,46): error TS2345: Argument of type '{}' is not assignable to parameter of type '{ testArg: string; }'.
+  Property 'testArg' is missing in type '{}' but required in type '{ testArg: string; }'.
+"
+`;

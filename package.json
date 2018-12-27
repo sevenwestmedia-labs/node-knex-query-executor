@@ -1,0 +1,24 @@
+{
+    "name": "node-query-executor",
+    "version": "0.1.0",
+    "description": "TypeScript first encapsulation and reusability of database queries (JS version of Query Object Pattern really).",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json",
+        "test": "jest"
+    },
+    "author": "Jake Ginnivan",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/cross-spawn": "^6.0.0",
+        "@types/jest": "^23.3.10",
+        "@types/knex": "^0.15.1",
+        "cross-spawn": "^6.0.5",
+        "jest": "^23.6.0",
+        "ts-jest": "^23.10.5",
+        "typescript": "^3.2.2"
+    },
+    "peerDependencies": {
+        "@types/knex": "^0.15.1"
+    }
+}
