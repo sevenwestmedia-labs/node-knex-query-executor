@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Typescript: Typescript expected failures 1`] = `
-"src/type-safety-fixtures/query-arguments.ts(23,46): error TS2345: Argument of type '{}' is not assignable to parameter of type '{ testArg: string; }'.
+"src/type-safety-fixtures/create-query-helper.ts(14,20): error TS2339: Property 'wrongTable' does not exist on type 'TableNames<\\"testTable\\">'.
+src/type-safety-fixtures/create-query-helper.ts(15,16): error TS2339: Property 'wrongTable' does not exist on type 'Tables<\\"testTable\\">'.
+src/type-safety-fixtures/create-query-helper.ts(17,21): error TS2339: Property 'foo' does not exist on type '{ testArg: string; }'.
+src/type-safety-fixtures/query-arguments.ts(22,46): error TS2345: Argument of type '{}' is not assignable to parameter of type '{ testArg: string; }'.
   Property 'testArg' is missing in type '{}' but required in type '{ testArg: string; }'.
 "
 `;

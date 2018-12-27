@@ -7,13 +7,12 @@ const tableNames = {
     testTable: 'testTable'
 }
 
-const queryExecutor = new ReadQueryExecutor(knex, {}, {}, tableNames)
+const queryExecutor = new ReadQueryExecutor(knex, {}, tableNames)
 
 const exampleQuery: Query<
     { testArg: string },
     string,
     keyof typeof tableNames,
-    {},
     {}
 > = async function exampleQuery({ args }) {
     return args.testArg
