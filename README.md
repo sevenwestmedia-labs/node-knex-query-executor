@@ -71,7 +71,7 @@ const exampleQuery = queryExecutor.createQuery(async function exampleQuery<
 
 ## Further reading
 
-This library is inspired by a few more OO patterns, and a want to move away from repositories.
+This library is inspired by a few object oriented patterns, and a want to move away from repositories.
 
 https://en.wikipedia.org/wiki/Specification_pattern
 https://martinfowler.com/eaaCatalog/queryObject.html

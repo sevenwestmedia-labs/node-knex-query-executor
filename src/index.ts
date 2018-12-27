@@ -39,6 +39,10 @@ export interface Query<
     >
 }
 
+export interface ExecuteResult<Args, Result> {
+    withArgs: (args: Args) => Promise<Result>
+}
+
 export interface QueryWrapper {
     (builder: Knex.QueryBuilder): Knex.QueryBuilder
     (builder: Knex.Raw): Knex.Raw
@@ -74,9 +78,9 @@ export class QueryExecutor<
         return query
     }
 
-    execute<Result, Args>(
+    execute<Args, Result>(
         query: Query<Args, Result, TTableNames, Services>
-    ): { withArgs: (args: Args) => Promise<Result> } {
+    ): ExecuteResult<Args, Result> {
         return {
             withArgs: async args =>
                 await query({
