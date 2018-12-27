@@ -2,7 +2,8 @@ import {
     ReadQueryExecutor,
     Query,
     ExecuteResult,
-    UnitOfWorkQueryExecutor
+    UnitOfWorkQueryExecutor,
+    TableNames
 } from './index'
 
 const NoMatch = Symbol('no match')
@@ -35,9 +36,9 @@ export class MockQueryExecutor<
     TTableNames extends string,
     Services extends {}
 > extends ReadQueryExecutor<TTableNames, Services> {
-    constructor() {
+    constructor(tableNames: TableNames<TTableNames>) {
         // The real query executor should not be called so this is fine
-        super(undefined as any, undefined as any, undefined as any)
+        super(undefined as any, undefined as any, tableNames)
     }
     private mocks: Array<{
         query: Query<any, any, TTableNames, Services>
@@ -48,7 +49,7 @@ export class MockQueryExecutor<
         this.mocks = []
     }
 
-    mock<Result, Args>(query: Query<Result, Args, TTableNames, Services>) {
+    mock<Args, Result>(query: Query<Args, Result, TTableNames, Services>) {
         const mocker = {
             match: (getResult: Matcher<Args, Result>) => {
                 this.mocks.push({
