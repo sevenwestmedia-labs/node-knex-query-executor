@@ -17,7 +17,7 @@ This library extends this concept to introduce a `QueryExecutor` which can be in
 The query executor is a class, to start using it you need to create an instance of the `ReadQueryExecutor`.
 
 ```ts
-new ReadQueryExecutor(
+const queryExecutor = new ReadQueryExecutor(
     // The knex instance
     knex,
     // The services object is available to all queries, ie a logger
@@ -28,8 +28,43 @@ new ReadQueryExecutor(
     // mapping from the JS name to the database table name
     {
         tableOne: 'table-one'
-    }
+    },
+    // Optional, you can wrap every query before execution, allowing you to hook in logs or
+    // some other manipulation
+    query => query
 )
+```
+
+### Executing a query
+
+```ts
+// If using TypeScript it is advised to use the create query helper
+// which can infer all the types from usage
+interface QueryArgs {
+    someArg: string
+}
+interface QueryResult {
+    col1: string
+}
+// NOTE: Name your functions here if possible, it makes the error messages when using
+// the mock query executor better
+const exampleQuery = queryExecutor.createQuery(async function exampleQuery<
+    QueryArgs,
+    QueryResult
+>({ args, tables, tableNames, query }) {
+    // You can access the query arguments through `args`
+    const { someArg } = args
+
+    // Use tables to get Knex.QueryBuilder's for each table
+    const result = await tables.tableOne().where(...).select('col1')
+
+    // Use tableNames if you need to access a table name directly (for joins etc)
+    // Use query() to access knex directly (it is a callback for wrapping purposes)
+    const result = await query(knex => knex(tableNames.tableOne).select('col1'))
+
+    // It is the queries responsibility to ensure the type is correct
+    return result
+})
 ```
 
 ### Testing
