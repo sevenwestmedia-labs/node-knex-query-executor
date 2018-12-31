@@ -6,7 +6,7 @@ import {
     TableNames
 } from './index'
 
-const NoMatch = Symbol('no match')
+export const NoMatch = Symbol('no match')
 
 export type Matcher<Args, Result> = (args: Args) => typeof NoMatch | Result
 

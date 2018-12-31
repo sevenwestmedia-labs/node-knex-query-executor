@@ -43,9 +43,11 @@ const queryExecutor = new ReadQueryExecutor(
 interface QueryArgs {
     someArg: string
 }
+
 interface QueryResult {
     col1: string
 }
+
 // NOTE: Name your functions here if possible, it makes the error messages when using
 // the mock query executor better
 const exampleQuery = queryExecutor.createQuery(async function exampleQuery<
@@ -68,6 +70,47 @@ const exampleQuery = queryExecutor.createQuery(async function exampleQuery<
 ```
 
 ### Testing
+
+```ts
+import { NoMatch, MockQueryExecutor } from 'node-query-executor'
+
+const queryExecutor = new MockQueryExecutor(tables)
+
+const exampleQuery = queryExecutor.createQuery<{}, number>(async ({}) => {
+    // real query here
+})
+const exampleQuery2 = queryExecutor.createQuery<{ input: number }, number>(
+    async ({}) => {
+        // real query here
+    }
+)
+
+// Setup the mock in the query executor, returning the same value no matter the args
+queryExecutor.mock(exampleQuery).match(() => {
+    return 1
+})
+
+// You can also chain matches, inspecting the query arguments
+queryExecutor
+    .mock(exampleQuery2)
+    .match(({ input }) => {
+        // Return 1 if even
+        if (input % 2 === 0) {
+            return 1
+        }
+
+        // Use the NoMatch symbol otherwise
+        return NoMatch
+    })
+    .match(({ input }) => {
+        // Return 0 if odd
+        if (input % 2 === 1) {
+            return 0
+        }
+
+        return NoMatch
+    })
+```
 
 ## Further reading
 
