@@ -118,7 +118,7 @@ queryExecutor
 
 This library is inspired by a few object oriented patterns, and a want to move away from repositories.
 
-https://en.wikipedia.org/wiki/Specification_pattern
-https://martinfowler.com/eaaCatalog/queryObject.html
-https://lostechies.com/chadmyers/2008/08/02/query-objects-with-the-repository-pattern/
+https://en.wikipedia.org/wiki/Specification_pattern  
+https://martinfowler.com/eaaCatalog/queryObject.html  
+https://lostechies.com/chadmyers/2008/08/02/query-objects-with-the-repository-pattern/  
 https://codeopinion.com/query-objects-instead-of-repositories/
