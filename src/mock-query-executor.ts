@@ -4,7 +4,7 @@ import {
     ExecuteResult,
     UnitOfWorkQueryExecutor,
     TableNames
-} from './index'
+} from '.'
 
 export const NoMatch = Symbol('no match')
 
