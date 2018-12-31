@@ -12,7 +12,6 @@
     "devDependencies": {
         "@types/cross-spawn": "^6.0.0",
         "@types/jest": "^23.3.10",
-        "@types/knex": "^0.15.1",
         "@types/mock-knex": "^0.3.4",
         "cross-spawn": "^6.0.5",
         "jest": "^23.6.0",
@@ -20,8 +19,5 @@
         "mock-knex": "^0.4.3",
         "ts-jest": "^23.10.5",
         "typescript": "^3.2.2"
-    },
-    "peerDependencies": {
-        "@types/knex": "^0.15.1"
     }
 }
