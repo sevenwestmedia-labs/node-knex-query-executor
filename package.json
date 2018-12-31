@@ -3,9 +3,13 @@
     "version": "0.1.0",
     "description": "TypeScript first encapsulation and reusability of knex database queries (JS version of Query Object Pattern really).",
     "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "scripts": {
+        "prepack": "yarn verify && yarn build",
         "build": "tsc -p tsconfig.build.json",
-        "test": "jest"
+        "test": "jest",
+        "verify": "yarn tsc -p tsconfig.json && yarn test && yarn lint",
+        "cz": "git-cz"
     },
     "author": "Jake Ginnivan",
     "license": "MIT",
@@ -13,10 +17,13 @@
         "@types/cross-spawn": "^6.0.0",
         "@types/jest": "^23.3.10",
         "@types/mock-knex": "^0.3.4",
+        "commitizen": "^3.0.5",
         "cross-spawn": "^6.0.5",
+        "cz-conventional-changelog": "^2.1.0",
         "jest": "^23.6.0",
         "knex": "^0.16.3",
         "mock-knex": "^0.4.3",
+        "semantic-release": "^15.13.2",
         "ts-jest": "^23.10.5",
         "typescript": "^3.2.2"
     },
