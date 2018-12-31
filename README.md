@@ -1,5 +1,7 @@
 # Node query executor
 
+[![Build Status](https://travis-ci.com/sevenwestmedia-labs/node-knex-query-executor.svg?branch=master)](https://travis-ci.com/sevenwestmedia-labs/node-knex-query-executor)
+
 A simple library which enables encapsulation of knex queries inside functions. It enables inversion of control for database queries, making it easy to mock the database layer entirely while making database queries themselves easy to test.
 
 ## Why
