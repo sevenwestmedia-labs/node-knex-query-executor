@@ -16,7 +16,10 @@ export class QueryExecutor<
     ) {
         this.tables = Object.keys(tableNames).reduce<any>((acc, tableName) => {
             acc[tableName] = () => {
-                return performWrap(knex(tableName), this.wrapQuery)
+                return performWrap(
+                    knex(tableNames[tableName as TTableNames]),
+                    this.wrapQuery
+                )
             }
 
             return acc

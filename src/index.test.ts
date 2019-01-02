@@ -34,7 +34,7 @@ it('can wrap queryBuilder queries', async () => {
 
     await queryExecutor.execute(tableNameQuery).withArgs({})
 
-    expect(executedQuery).toEqual('select * from `tableOne`')
+    expect(executedQuery).toEqual('select * from `table-one`')
 })
 
 it('can wrap raw queries', async () => {
@@ -77,7 +77,7 @@ it('combined wrap API can wrap builder queries', async () => {
 
     await queryExecutor.execute(testQuery).withArgs({})
 
-    expect(executedQuery).toEqual('select * from `tableOne`')
+    expect(executedQuery).toEqual('select * from `table-one`')
 })
 
 it('combined wrap API can wrap raw queries', async () => {
