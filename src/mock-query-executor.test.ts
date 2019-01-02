@@ -1,4 +1,4 @@
-import { MockQueryExecutor } from './mock-query-executor'
+import { MockQueryExecutor } from '.'
 
 const tables = {
     tableOne: 'table-one'

@@ -1,5 +1,6 @@
 import * as Knex from 'knex'
-import { QueryExecutor, TableNames } from '.'
+import { TableNames } from '.'
+import { QueryExecutor } from './query-executor'
 import { UnitOfWorkQueryExecutor } from './unit-of-work-query-executor'
 
 export class ReadQueryExecutor<

@@ -7,7 +7,7 @@
     "scripts": {
         "prepack": "yarn verify && yarn build",
         "build": "tsc -p tsconfig.build.json",
-        "lint": "yarn tslint --project tsconfig.build.json",
+        "lint": "yarn tslint --project .",
         "test": "jest",
         "verify": "yarn tsc -p tsconfig.json && yarn test && yarn lint",
         "cz": "git-cz"

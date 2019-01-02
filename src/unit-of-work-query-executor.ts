@@ -1,5 +1,6 @@
 import * as Knex from 'knex'
-import { TableNames, QueryExecutor } from '.'
+import { TableNames } from '.'
+import { QueryExecutor } from './query-executor'
 
 export class UnitOfWorkQueryExecutor<
     TTableNames extends string,
