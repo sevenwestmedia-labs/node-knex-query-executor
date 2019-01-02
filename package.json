@@ -5,7 +5,7 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "prepack": "yarn verify && yarn build",
+        "prepack": "yarn build",
         "build": "tsc -p tsconfig.build.json",
         "lint": "yarn tslint --project .",
         "test": "jest",
