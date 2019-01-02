@@ -1,5 +1,5 @@
 import * as Knex from 'knex'
-import { TableNames } from '.'
+import { QueryWrapper, TableNames } from '.'
 import { QueryExecutor } from './query-executor'
 
 export class UnitOfWorkQueryExecutor<
@@ -12,8 +12,15 @@ export class UnitOfWorkQueryExecutor<
     constructor(
         protected knex: Knex.Transaction,
         services: Services,
-        tableNames: TableNames<TTableNames>
+        tableNames: TableNames<TTableNames>,
+        wrapQuery?: QueryWrapper
     ) {
-        super('unit-of-work-query-executor', knex, services, tableNames)
+        super(
+            'unit-of-work-query-executor',
+            knex,
+            services,
+            tableNames,
+            wrapQuery
+        )
     }
 }

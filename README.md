@@ -37,6 +37,14 @@ const queryExecutor = new ReadQueryExecutor(
 )
 ```
 
+#### Query Executor types
+
+There are 3 query executor classes, you should only need to construct the `ReadQueryExecutor` as above.
+
+-   `ReadQueryExecutor`: Entry point, represents a query executor not in a transaction
+-   `UnitOfWorkQueryExecutor`: Type used when function wants to execute a query inside a transaction
+-   `QueryExecutor`: Type when code does not care if the query is executed inside or outside a transaction
+
 ### Executing a query
 
 ```ts
@@ -69,6 +77,9 @@ const exampleQuery = queryExecutor.createQuery(async function exampleQuery<
     // It is the queries responsibility to ensure the type is correct
     return result
 })
+
+// Then execute the query
+const queryResult = await queryExecutor.execute(exampleQuery).withArgs({})
 ```
 
 ### Testing
@@ -76,7 +87,7 @@ const exampleQuery = queryExecutor.createQuery(async function exampleQuery<
 ```ts
 import { NoMatch, MockQueryExecutor } from 'node-query-executor'
 
-const queryExecutor = new MockQueryExecutor(tables)
+const queryExecutor = new MockQueryExecutor()
 
 const exampleQuery = queryExecutor.createQuery<{}, number>(async ({}) => {
     // real query here

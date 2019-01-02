@@ -6,7 +6,7 @@ export class QueryExecutor<
     Services extends object
 > {
     protected tables: Tables<TTableNames>
-    private wrap: QueryWrapper
+    protected wrap: QueryWrapper
 
     constructor(
         public kind: 'read-query-executor' | 'unit-of-work-query-executor',
