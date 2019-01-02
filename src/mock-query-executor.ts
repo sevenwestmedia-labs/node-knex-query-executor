@@ -31,9 +31,9 @@ export class MockQueryExecutor<
     TTableNames extends string,
     Services extends {}
 > extends ReadQueryExecutor<TTableNames, Services> {
-    constructor(tableNames: TableNames<TTableNames>) {
+    constructor() {
         // The real query executor should not be called so this is fine
-        super(undefined as any, undefined as any, tableNames)
+        super(undefined as any, undefined as any, {} as any)
     }
     private mocks: Array<{
         query: Query<any, any, TTableNames, Services>
