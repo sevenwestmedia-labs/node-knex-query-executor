@@ -13,14 +13,14 @@ export class UnitOfWorkQueryExecutor<
         protected knex: Knex.Transaction,
         services: Services,
         tableNames: TableNames<TTableNames>,
-        wrapQuery?: QueryWrapper
+        wrapQuery?: QueryWrapper,
     ) {
         super(
             'unit-of-work-query-executor',
             knex,
             services,
             tableNames,
-            wrapQuery
+            wrapQuery,
         )
     }
 }

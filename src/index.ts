@@ -9,7 +9,7 @@ export {
     NoMatch,
     QueryExecutor,
     ReadQueryExecutor,
-    UnitOfWorkQueryExecutor
+    UnitOfWorkQueryExecutor,
 }
 
 export type Tables<TTableNames extends string> = {
@@ -29,7 +29,7 @@ type QueryOptions<
      * tracked/benchmarked
      */
     query: (
-        createQuery: (knex: Knex) => Knex.QueryBuilder | Knex.Raw
+        createQuery: (knex: Knex) => Knex.QueryBuilder | Knex.Raw,
     ) => Knex.QueryBuilder | Knex.Raw
     tables: Tables<TTableNames>
     tableNames: TableNames<TTableNames>

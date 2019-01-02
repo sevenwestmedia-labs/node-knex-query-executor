@@ -2,14 +2,14 @@ import { ReadQueryExecutor } from '.'
 import { createMockedKnex } from './test-helpers/knex'
 
 const testTables = {
-    tableOne: 'table-one'
+    tableOne: 'table-one',
 }
 
 it('can initialise read query executor', async () => {
     const knex = createMockedKnex(query => query.response([]))
     const queryExecutor = new ReadQueryExecutor(knex, {}, testTables)
     const tableNameQuery = queryExecutor.createQuery(
-        async ({ tableNames }) => tableNames.tableOne
+        async ({ tableNames }) => tableNames.tableOne,
     )
 
     const tableName = await queryExecutor.execute(tableNameQuery, {})

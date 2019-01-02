@@ -13,7 +13,7 @@ export class ReadQueryExecutor<
         knex: Knex,
         services: Services,
         tableNames: TableNames<TTableNames>,
-        wrapQuery?: QueryWrapper
+        wrapQuery?: QueryWrapper,
     ) {
         super('read-query-executor', knex, services, tableNames, wrapQuery)
     }
@@ -26,8 +26,8 @@ export class ReadQueryExecutor<
      */
     unitOfWork<T>(
         work: (
-            executor: UnitOfWorkQueryExecutor<TTableNames, Services>
-        ) => Promise<T>
+            executor: UnitOfWorkQueryExecutor<TTableNames, Services>,
+        ) => Promise<T>,
     ): PromiseLike<T> {
         return this.knex.transaction(trx => {
             // knex is aware of promises, and will automatically commit
@@ -37,8 +37,8 @@ export class ReadQueryExecutor<
                     trx,
                     this.services,
                     this.tableNames,
-                    this.wrapQuery
-                )
+                    this.wrapQuery,
+                ),
             )
         })
     }
