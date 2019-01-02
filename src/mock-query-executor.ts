@@ -27,16 +27,16 @@ export type Matcher<Args, Result> = (args: Args) => typeof NoMatch | Result
  *        return NoMatch
  *    })
  */
-export class MockQueryExecutor<
-    TTableNames extends string,
-    Services extends {}
-> extends ReadQueryExecutor<TTableNames, Services> {
+export class MockQueryExecutor extends ReadQueryExecutor<any, any> {
+    // Making kind `any` on the executor means it's compatible with all QueryExecutors
+    kind: any
+
     constructor() {
         // The real query executor should not be called so this is fine
         super(undefined as any, undefined as any, {} as any)
     }
     private mocks: Array<{
-        query: Query<any, any, TTableNames, Services>
+        query: Query<any, any, any, any>
         matcher: Matcher<any, any>
     }> = []
 
@@ -44,7 +44,7 @@ export class MockQueryExecutor<
         this.mocks = []
     }
 
-    mock<Args, Result>(query: Query<Args, Result, TTableNames, Services>) {
+    mock<Args, Result>(query: Query<Args, Result, any, any>) {
         const mocker = {
             match: (getResult: Matcher<Args, Result>) => {
                 this.mocks.push({
@@ -58,7 +58,7 @@ export class MockQueryExecutor<
     }
 
     execute<Args, Result>(
-        query: Query<Args, Result, TTableNames, Services>
+        query: Query<Args, Result, any, any>
     ): ExecuteResult<Args, Result> {
         return {
             withArgs: (args: Args) => {
@@ -90,9 +90,7 @@ export class MockQueryExecutor<
      * @example executor.unitOfWork(unit => unit.executeQuery(insertBlah, blah))
      */
     unitOfWork<T>(
-        work: (
-            executor: UnitOfWorkQueryExecutor<TTableNames, Services>
-        ) => Promise<T>
+        work: (executor: UnitOfWorkQueryExecutor<any, any>) => Promise<T>
     ): PromiseLike<any> {
         return work(this as any)
     }
