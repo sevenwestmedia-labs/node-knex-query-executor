@@ -51,7 +51,16 @@ export interface ExecuteResult<Args, Result> {
     withArgs: (args: Args) => Promise<Result>
 }
 
-export interface QueryWrapper {
+export interface QueryWrapperFn {
     (builder: Knex.QueryBuilder): Knex.QueryBuilder
     (builder: Knex.Raw): Knex.Raw
 }
+
+export type QueryWrapper =
+    | QueryWrapperFn
+    | {
+          rawQueryWrapper?: (builder: Knex.Raw) => Knex.Raw
+          queryBuilderWrapper?: (
+              builder: Knex.QueryBuilder
+          ) => Knex.QueryBuilder
+      }

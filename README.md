@@ -82,6 +82,25 @@ const exampleQuery = queryExecutor.createQuery(async function exampleQuery<
 const queryResult = await queryExecutor.execute(exampleQuery).withArgs({})
 ```
 
+### Wrapping database queries
+
+Sometimes you may want to instrument knex queries (for benchmarking, debugging etc), the query executor makes this really easy.
+
+```ts
+const queryExecutor = new ReadQueryExecutor(knex, {}, tables, {
+    queryBuilderWrapper: (query: Knex.QueryBuilder) => {
+        // Do what you want here
+
+        return query
+    },
+    rawQueryWrapper: (query: Knex.Raw) => {
+        // Do what you want here
+
+        return query
+    }
+})
+```
+
 ### Testing
 
 ```ts
