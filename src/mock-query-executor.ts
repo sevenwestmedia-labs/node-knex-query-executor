@@ -1,11 +1,6 @@
-import {
-    ReadQueryExecutor,
-    Query,
-    ExecuteResult,
-    UnitOfWorkQueryExecutor,
-    TableNames
-} from '.'
-
+import { ExecuteResult, Query, TableNames } from '.'
+import { ReadQueryExecutor } from './read-query-executor'
+import { UnitOfWorkQueryExecutor } from './unit-of-work-query-executor'
 export const NoMatch = Symbol('no match')
 
 export type Matcher<Args, Result> = (args: Args) => typeof NoMatch | Result

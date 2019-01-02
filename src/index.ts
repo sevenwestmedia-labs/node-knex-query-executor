@@ -1,9 +1,16 @@
 import * as Knex from 'knex'
+import { MockQueryExecutor, NoMatch } from './mock-query-executor'
 import { QueryExecutor } from './query-executor'
 import { ReadQueryExecutor } from './read-query-executor'
 import { UnitOfWorkQueryExecutor } from './unit-of-work-query-executor'
 
-export { QueryExecutor, ReadQueryExecutor, UnitOfWorkQueryExecutor }
+export {
+    MockQueryExecutor,
+    NoMatch,
+    QueryExecutor,
+    ReadQueryExecutor,
+    UnitOfWorkQueryExecutor
+}
 
 export type Tables<TTableNames extends string> = {
     [table in TTableNames]: () => Knex.QueryBuilder

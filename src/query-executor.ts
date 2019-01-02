@@ -1,6 +1,5 @@
 import * as Knex from 'knex'
-
-import { Tables, QueryWrapper, TableNames, Query, ExecuteResult } from '.'
+import { ExecuteResult, Query, QueryWrapper, TableNames, Tables } from '.'
 
 export class QueryExecutor<
     TTableNames extends string,

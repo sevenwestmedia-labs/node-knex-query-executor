@@ -1,5 +1,5 @@
-import path from 'path'
 import spawn from 'cross-spawn'
+import path from 'path'
 
 test('Typescript', () => {
     const typescriptCompilation = spawn.sync('./node_modules/.bin/tsc', [
