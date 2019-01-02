@@ -1,5 +1,5 @@
 import * as Knex from 'knex'
-import { TableNames } from '.'
+import { QueryWrapper, TableNames } from '.'
 import { QueryExecutor } from './query-executor'
 import { UnitOfWorkQueryExecutor } from './unit-of-work-query-executor'
 
@@ -12,9 +12,10 @@ export class ReadQueryExecutor<
     constructor(
         knex: Knex,
         services: Services,
-        tableNames: TableNames<TTableNames>
+        tableNames: TableNames<TTableNames>,
+        wrapQuery?: QueryWrapper
     ) {
-        super('read-query-executor', knex, services, tableNames)
+        super('read-query-executor', knex, services, tableNames, wrapQuery)
     }
 
     /**
@@ -32,7 +33,12 @@ export class ReadQueryExecutor<
             // knex is aware of promises, and will automatically commit
             // or reject based on this callback promise
             return work(
-                new UnitOfWorkQueryExecutor(trx, this.services, this.tableNames)
+                new UnitOfWorkQueryExecutor(
+                    trx,
+                    this.services,
+                    this.tableNames,
+                    this.wrap
+                )
             )
         })
     }
