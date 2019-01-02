@@ -1,12 +1,16 @@
 {
     "name": "node-knex-query-executor",
-    "version": "0.1.0",
+    "version": "0.0.0-development",
     "description": "TypeScript first encapsulation and reusability of knex database queries (JS version of Query Object Pattern really).",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
+    "main": "dist/cjs/index.js",
+    "module": "dist/esm/index.js",
+    "es2015": "dist/es2015/index.js",
     "scripts": {
         "prepack": "yarn build",
-        "build": "tsc -p tsconfig.build.json",
+        "build": "yarn build:es2015 && yarn build:esm && yarn build:cjs",
+        "build:es2015": "tsc --module es2015 --target es2015 --lib es2015 --outDir dist/es2015 -p tsconfig.build.json",
+        "build:esm": "tsc --module es2015 --target es5 --outDir dist/esm -p tsconfig.build.json",
+        "build:cjs": "tsc --module commonjs --target es5 --outDir dist/cjs -p tsconfig.build.json",
         "lint": "yarn tslint --project .",
         "test": "jest",
         "verify": "yarn tsc -p tsconfig.json && yarn test && yarn lint",
@@ -24,7 +28,6 @@
         "jest": "^24.9.0",
         "knex": "^0.19.2",
         "mock-knex": "^0.4.3",
-        "semantic-release": "^15.13.2",
         "ts-jest": "^24.0.2",
         "tslint": "^5.12.0",
         "tslint-config-prettier": "^1.17.0",
@@ -32,6 +35,7 @@
         "typescript": "^3.2.2"
     },
     "peerDependencies": {
-        "knex": "^0.16.0"
+        "knex": "^0.16.0",
+        "tslib": "^1.9.3"
     }
 }
