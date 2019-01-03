@@ -82,6 +82,25 @@ const exampleQuery = queryExecutor.createQuery(async function exampleQuery<
 const queryResult = await queryExecutor.execute(exampleQuery).withArgs({})
 ```
 
+### Wrapping database queries
+
+Sometimes you may want to instrument knex queries (for benchmarking, debugging etc), the query executor makes this really easy.
+
+```ts
+const queryExecutor = new ReadQueryExecutor(knex, {}, tables, {
+    queryBuilderWrapper: (query: Knex.QueryBuilder) => {
+        // Do what you want here
+
+        return query
+    },
+    rawQueryWrapper: (query: Knex.Raw) => {
+        // Do what you want here
+
+        return query
+    }
+})
+```
+
 ### Testing
 
 ```ts
@@ -123,6 +142,39 @@ queryExecutor
 
         return NoMatch
     })
+```
+
+## Simplifying types
+
+Because the QueryExecutor types are generic, it often is verbose writing `QueryExecutor<typeof keyof tableNames, YourQueryServices>`, it is suggested you export your own closed generic types to make them easy to pass around.
+
+```ts
+import * as KnexQueryExecutor from 'node-knex-query-executor'
+
+interface YourQueryServices {
+    log: Logger
+}
+
+export type Query<QueryArguments, QueryResult> = KnexQueryExecutor.Query<
+    QueryArguments,
+    QueryResult,
+    keyof typeof tableNames,
+    YourQueryServices
+>
+export type QueryExecutor = KnexQueryExecutor.QueryExecutor<
+    keyof typeof tableNames,
+    YourQueryServices
+>
+export type ReadQueryExecutor = KnexQueryExecutor.ReadQueryExecutor<
+    keyof typeof tableNames,
+    YourQueryServices
+>
+export type UnitOfWorkQueryExecutor = KnexQueryExecutor.UnitOfWorkQueryExecutor<
+    keyof typeof tableNames,
+    YourQueryServices
+>
+export type TableNames = KnexQueryExecutor.TableNames<keyof typeof tableNames>
+export type Tables = KnexQueryExecutor.Tables<keyof typeof tableNames>
 ```
 
 ## Further reading

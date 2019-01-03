@@ -37,7 +37,7 @@ export class ReadQueryExecutor<
                     trx,
                     this.services,
                     this.tableNames,
-                    this.wrap
+                    this.wrapQuery
                 )
             )
         })

@@ -1,4 +1,4 @@
-import * as Knex from 'knex'
+import Knex from 'knex'
 import { ExecuteResult, Query, QueryWrapper, TableNames, Tables } from '.'
 
 export class QueryExecutor<
@@ -6,19 +6,21 @@ export class QueryExecutor<
     Services extends object
 > {
     protected tables: Tables<TTableNames>
-    protected wrap: QueryWrapper
 
     constructor(
         public kind: 'read-query-executor' | 'unit-of-work-query-executor',
         protected knex: Knex | Knex.Transaction,
         protected services: Services,
         protected tableNames: TableNames<TTableNames>,
-        wrapQuery?: QueryWrapper
+        protected wrapQuery?: QueryWrapper
     ) {
-        this.wrap = wrapQuery || ((b: any) => b)
-
         this.tables = Object.keys(tableNames).reduce<any>((acc, tableName) => {
-            acc[tableName] = () => this.wrap(knex(tableName))
+            acc[tableName] = () => {
+                return performWrap(
+                    knex(tableNames[tableName as TTableNames]),
+                    this.wrapQuery
+                )
+            }
 
             return acc
         }, {})
@@ -37,11 +39,10 @@ export class QueryExecutor<
         return {
             withArgs: async args =>
                 query({
-                    query: createQuery =>
-                        this.wrap(createQuery(this.knex) as any),
+                    query: getQuery => {
+                        return performWrap(getQuery(this.knex), this.wrapQuery)
+                    },
                     queryExecutor: this,
-                    wrapQuery: (builder: Knex.QueryBuilder) =>
-                        this.wrap(builder),
                     tables: this.tables,
                     args,
                     tableNames: this.tableNames,
@@ -49,4 +50,35 @@ export class QueryExecutor<
                 })
         }
     }
+}
+
+function performWrap(
+    queryToWrap: Knex.QueryBuilder | Knex.Raw,
+    wrapper: QueryWrapper | undefined
+) {
+    if (!wrapper) {
+        return queryToWrap
+    }
+
+    if (typeof wrapper === 'function') {
+        return wrapper(queryToWrap as any)
+    }
+
+    if (isRawQuery(queryToWrap)) {
+        if (!wrapper.rawQueryWrapper) {
+            return queryToWrap
+        }
+
+        return wrapper.rawQueryWrapper(queryToWrap)
+    }
+
+    if (wrapper.queryBuilderWrapper) {
+        return wrapper.queryBuilderWrapper(queryToWrap)
+    }
+
+    return queryToWrap
+}
+
+function isRawQuery(query: Knex.Raw | Knex.QueryBuilder): query is Knex.Raw {
+    return 'sql' in query
 }
