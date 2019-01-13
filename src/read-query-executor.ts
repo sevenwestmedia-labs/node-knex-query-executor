@@ -28,7 +28,7 @@ export class ReadQueryExecutor<
         work: (
             executor: UnitOfWorkQueryExecutor<TTableNames, Services>
         ) => Promise<T>
-    ): PromiseLike<any> {
+    ): PromiseLike<T> {
         return this.knex.transaction(trx => {
             // knex is aware of promises, and will automatically commit
             // or reject based on this callback promise
