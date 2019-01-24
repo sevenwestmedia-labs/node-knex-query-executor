@@ -63,7 +63,7 @@ interface QueryResult {
 const exampleQuery = queryExecutor.createQuery(async function exampleQuery<
     QueryArgs,
     QueryResult
->({ args, tables, tableNames, query }) {
+>({ tables, tableNames, query }, args) {
     // You can access the query arguments through `args`
     const { someArg } = args
 
@@ -79,7 +79,7 @@ const exampleQuery = queryExecutor.createQuery(async function exampleQuery<
 })
 
 // Then execute the query
-const queryResult = await queryExecutor.execute(exampleQuery).withArgs({})
+const queryResult = await queryExecutor.execute(exampleQuery, { someArg: 'pass the args as the second parameter' })
 ```
 
 ### Wrapping database queries

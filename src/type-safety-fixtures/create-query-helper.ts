@@ -13,7 +13,7 @@ const queryExecutor = new ReadQueryExecutor(
 
 const exampleQuery = queryExecutor.createQuery<{ testArg: string }, string>(
     // tslint:disable-next-line:no-shadowed-variable
-    async function exampleQuery({ args, tableNames, tables }) {
+    async function exampleQuery({ tableNames, tables }, args) {
         tableNames.wrongTable
         tables.wrongTable()
 

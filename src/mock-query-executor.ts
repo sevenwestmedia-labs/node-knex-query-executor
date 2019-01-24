@@ -1,4 +1,4 @@
-import { ExecuteResult, Query, TableNames } from '.'
+import { ExecuteResult, GetQueryArgs, GetQueryResult, Query } from '.'
 import { ReadQueryExecutor } from './read-query-executor'
 import { UnitOfWorkQueryExecutor } from './unit-of-work-query-executor'
 export const NoMatch = Symbol('no match')
@@ -57,30 +57,26 @@ export class MockQueryExecutor extends ReadQueryExecutor<any, any> {
         return mocker
     }
 
-    execute<Args, Result>(
-        query: Query<Args, Result, any, any>
-    ): ExecuteResult<Args, Result> {
-        return {
-            withArgs: (args: Args) => {
-                for (const mock of this.mocks) {
-                    if (mock.query === query) {
-                        const matcherResult = mock.matcher(args)
-                        if (matcherResult !== NoMatch) {
-                            return new Promise(resolve => {
-                                // Using setTimeout so this is not synchronous
-                                setTimeout(() => {
-                                    resolve(matcherResult)
-                                }, 0)
-                            })
-                        }
-                    }
+    execute<Q extends Query<any, any, any, any>>(
+        query: Q,
+        args: GetQueryArgs<Q>
+    ): ExecuteResult<GetQueryResult<Q>> {
+        for (const mock of this.mocks) {
+            if (mock.query === query) {
+                const matcherResult = mock.matcher(args)
+                if (matcherResult !== NoMatch) {
+                    return new Promise(resolve => {
+                        // Using setTimeout so this is not synchronous
+                        setTimeout(() => {
+                            resolve(matcherResult)
+                        }, 0)
+                    })
                 }
-
-                throw new Error(
-                    `No matcher for query ${query.name || 'unnamed function'}`
-                )
             }
         }
+        throw new Error(
+            `No matcher for query ${query.name || 'unnamed function'}`
+        )
     }
 
     /**

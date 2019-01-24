@@ -21,12 +21,9 @@ export type TableNames<TTableNames extends string> = {
 }
 
 type QueryOptions<
-    QueryArguments,
     TTableNames extends string,
     Services extends {}
 > = Services & {
-    args: QueryArguments
-
     /**
      * Gives raw access to knex, while still allowing the query to be
      * tracked/benchmarked
@@ -38,18 +35,18 @@ type QueryOptions<
     tableNames: TableNames<TTableNames>
     queryExecutor: QueryExecutor<TTableNames, Services>
 }
+
 export type Query<
     QueryArguments,
     QueryResult,
     TTableNames extends string,
     Services extends object
 > = (
-    options: QueryOptions<QueryArguments, TTableNames, Services>
+    options: QueryOptions<TTableNames, Services>,
+    args: QueryArguments
 ) => PromiseLike<QueryResult>
 
-export interface ExecuteResult<Args, Result> {
-    withArgs: (args: Args) => Promise<Result>
-}
+export type ExecuteResult<Result> = PromiseLike<Result>
 
 export interface QueryWrapperFn {
     (builder: Knex.QueryBuilder): Knex.QueryBuilder
@@ -64,3 +61,11 @@ export type QueryWrapper =
               builder: Knex.QueryBuilder
           ) => Knex.QueryBuilder
       }
+
+export type GetQueryArgs<T> = T extends Query<infer P, any, any, any>
+    ? P
+    : never
+
+export type GetQueryResult<T> = T extends Query<any, infer P, any, any>
+    ? P
+    : never

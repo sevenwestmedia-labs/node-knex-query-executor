@@ -1,5 +1,13 @@
 import Knex from 'knex'
-import { ExecuteResult, Query, QueryWrapper, TableNames, Tables } from '.'
+import {
+    ExecuteResult,
+    GetQueryArgs,
+    GetQueryResult,
+    TableNames,
+    Tables,
+    Query,
+    QueryWrapper
+} from '.'
 
 export class QueryExecutor<
     TTableNames extends string,
@@ -27,28 +35,29 @@ export class QueryExecutor<
     }
 
     /** Helper to create type safe queries */
-    createQuery<QueryArguments, QueryResult>(
+    createQuery<QueryArguments = object, QueryResult = any>(
         query: Query<QueryArguments, QueryResult, TTableNames, Services>
-    ): Query<QueryArguments, QueryResult, TTableNames, Services> {
+    ) {
         return query
     }
 
-    execute<Args, Result>(
-        query: Query<Args, Result, TTableNames, Services>
-    ): ExecuteResult<Args, Result> {
-        return {
-            withArgs: async args =>
-                query({
-                    query: getQuery => {
-                        return performWrap(getQuery(this.knex), this.wrapQuery)
-                    },
-                    queryExecutor: this,
-                    tables: this.tables,
-                    args,
-                    tableNames: this.tableNames,
-                    ...this.services
-                })
-        }
+    execute<Q extends Query<any, any, TTableNames, Services>>(
+        query: Q,
+        args: GetQueryArgs<Q>
+    ): ExecuteResult<GetQueryResult<Q>> {
+        return query(
+            {
+                query: getQuery => {
+                    return performWrap(getQuery(this.knex), this.wrapQuery)
+                },
+                queryExecutor: this,
+                tables: this.tables,
+                args,
+                tableNames: this.tableNames,
+                ...this.services
+            },
+            args
+        )
     }
 }
 

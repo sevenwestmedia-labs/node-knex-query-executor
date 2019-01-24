@@ -14,9 +14,9 @@ const exampleQuery: Query<
     string,
     keyof typeof tableNames,
     {}
-> = async function exampleQuery({ args }) {
+> = async function exampleQuery(_, args) {
     return args.testArg
 }
 
 // Should fail to compile with missing testArg
-queryExecutor.execute(exampleQuery).withArgs({})
+queryExecutor.execute(exampleQuery, {})

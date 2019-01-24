@@ -12,7 +12,7 @@ it('can initialise read query executor', async () => {
         async ({ tableNames }) => tableNames.tableOne
     )
 
-    const tableName = await queryExecutor.execute(tableNameQuery).withArgs({})
+    const tableName = await queryExecutor.execute(tableNameQuery, {})
 
     expect(tableName).toBe('table-one')
 })
@@ -32,7 +32,7 @@ it('can wrap queryBuilder queries', async () => {
         tables.tableOne()
     )
 
-    await queryExecutor.execute(tableNameQuery).withArgs({})
+    await queryExecutor.execute(tableNameQuery, {})
 
     expect(executedQuery).toEqual('select * from `table-one`')
 })
@@ -52,7 +52,7 @@ it('can wrap raw queries', async () => {
         query(db => db.raw('select 1'))
     )
 
-    await queryExecutor.execute(testQuery).withArgs({})
+    await queryExecutor.execute(testQuery, {})
 
     expect(executedQuery).toEqual('select 1')
 })
@@ -75,7 +75,7 @@ it('combined wrap API can wrap builder queries', async () => {
         tables.tableOne()
     )
 
-    await queryExecutor.execute(testQuery).withArgs({})
+    await queryExecutor.execute(testQuery, {})
 
     expect(executedQuery).toEqual('select * from `table-one`')
 })
@@ -98,7 +98,7 @@ it('combined wrap API can wrap raw queries', async () => {
         query(db => db.raw('select 1'))
     )
 
-    await queryExecutor.execute(testQuery).withArgs({})
+    await queryExecutor.execute(testQuery, {})
 
     expect(executedQuery).toEqual('select 1')
 })
