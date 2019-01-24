@@ -16,7 +16,7 @@ it('can mock query', async () => {
     })
 
     // Execute the query as normal
-    const result = await queryExecutor.execute(exampleQuery).withArgs({})
+    const result = await queryExecutor.execute(exampleQuery, {})
 
     expect(result).toEqual([1])
 })
@@ -38,12 +38,10 @@ it('can match specific query args', async () => {
     })
 
     // Execute the query as normal
-    const result = await queryExecutor
-        .execute(exampleQuery)
-        .withArgs({ param: 'first' })
-    const result2 = await queryExecutor
-        .execute(exampleQuery)
-        .withArgs({ param: 'other' })
+    const result = await queryExecutor.execute(exampleQuery, { param: 'first' })
+    const result2 = await queryExecutor.execute(exampleQuery, {
+        param: 'other'
+    })
 
     expect(result).toEqual(1)
     expect(result2).toEqual(2)
