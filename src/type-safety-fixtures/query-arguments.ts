@@ -4,7 +4,7 @@ import { QueryExecutor, ReadQueryExecutor, Query } from '../'
 declare const knex: Knex
 
 const tableNames = {
-    testTable: 'testTable'
+    testTable: 'testTable',
 }
 
 const queryExecutor = new ReadQueryExecutor(knex, {}, tableNames)

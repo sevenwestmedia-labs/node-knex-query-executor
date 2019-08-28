@@ -2,11 +2,11 @@ import knex from 'knex'
 import mockDb from 'mock-knex'
 
 export function createMockedKnex(
-    mockResults: (query: mockDb.QueryDetails, step: number) => void
+    mockResults: (query: mockDb.QueryDetails, step: number) => void,
 ) {
     const db = knex({
         client: 'sqlite',
-        useNullAsDefault: true
+        useNullAsDefault: true,
     })
 
     mockDb.mock(db)

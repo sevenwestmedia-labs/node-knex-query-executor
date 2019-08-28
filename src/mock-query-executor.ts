@@ -49,10 +49,10 @@ export class MockQueryExecutor extends ReadQueryExecutor<any, any> {
             match: (getResult: Matcher<Args, Result>) => {
                 this.mocks.push({
                     query,
-                    matcher: getResult
+                    matcher: getResult,
                 })
                 return mocker
-            }
+            },
         }
         return mocker
     }
@@ -86,7 +86,7 @@ export class MockQueryExecutor extends ReadQueryExecutor<any, any> {
      * @example executor.unitOfWork(unit => unit.executeQuery(insertBlah, blah))
      */
     unitOfWork<T>(
-        work: (executor: UnitOfWorkQueryExecutor<any, any>) => Promise<T>
+        work: (executor: UnitOfWorkQueryExecutor<any, any>) => Promise<T>,
     ): PromiseLike<any> {
         return work(this as any)
     }

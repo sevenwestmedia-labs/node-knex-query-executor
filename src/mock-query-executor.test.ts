@@ -1,7 +1,7 @@
 import { MockQueryExecutor } from '.'
 
 const tables = {
-    tableOne: 'table-one'
+    tableOne: 'table-one',
 }
 
 it('can mock query', async () => {
@@ -26,7 +26,7 @@ it('can match specific query args', async () => {
     const exampleQuery = queryExecutor.createQuery<{ param: string }, number>(
         async ({}) => {
             throw new Error('Should not be called')
-        }
+        },
     )
 
     // Setup the mock in the query executor, returning the same value no matter the args

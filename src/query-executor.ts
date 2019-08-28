@@ -20,7 +20,7 @@ export class QueryExecutor<
         protected knex: Knex | Knex.Transaction,
         protected services: Services,
         protected tableNames: TableNames<TTableNames>,
-        protected wrapQuery?: QueryWrapper
+        protected wrapQuery?: QueryWrapper,
     ) {
         this.tables = Object.keys(tableNames).reduce<any>((acc, tableName) => {
             acc[tableName] = () => {
@@ -36,7 +36,7 @@ export class QueryExecutor<
 
     /** Helper to create type safe queries */
     createQuery<QueryArguments = object, QueryResult = any>(
-        query: Query<QueryArguments, QueryResult, TTableNames, Services>
+        query: Query<QueryArguments, QueryResult, TTableNames, Services>,
     ) {
         return query
     }
@@ -54,7 +54,7 @@ export class QueryExecutor<
                 tables: this.tables,
                 args,
                 tableNames: this.tableNames,
-                ...this.services
+                    ...this.services,
             },
             args
         )

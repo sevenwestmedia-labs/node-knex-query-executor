@@ -7,8 +7,8 @@ const queryExecutor = new ReadQueryExecutor(
     knex,
     {},
     {
-        testTable: 'testTable'
-    }
+        testTable: 'testTable',
+    },
 )
 
 const exampleQuery = queryExecutor.createQuery<{ testArg: string }, string>(
@@ -18,5 +18,5 @@ const exampleQuery = queryExecutor.createQuery<{ testArg: string }, string>(
         tables.wrongTable()
 
         return args.foo
-    }
+    },
 )
