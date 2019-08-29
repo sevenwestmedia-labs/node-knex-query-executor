@@ -1,7 +1,17 @@
 {
+    "include": ["src/index.ts"],
     "extends": "./tsconfig.json",
     "compilerOptions": {
-        "noEmit": false /* Do not emit outputs. */
-    },
-    "include": ["src/index.ts"]
+        "noEmit": false,
+        "declaration": true,
+        "sourceMap": true,
+        "noEmitHelpers": true,
+        "importHelpers": true,
+
+        /* Additional Checks */
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true
+    }
 }
