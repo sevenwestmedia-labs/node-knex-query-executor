@@ -11,8 +11,8 @@ const queryExecutor = new ReadQueryExecutor(
     },
 )
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const exampleQuery = queryExecutor.createQuery<{ testArg: string }, string>(
-    // tslint:disable-next-line:no-shadowed-variable
     async function exampleQuery({ tableNames, tables }, args) {
         tableNames.wrongTable
         tables.wrongTable()
