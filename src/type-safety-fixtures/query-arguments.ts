@@ -1,5 +1,5 @@
 import * as Knex from 'knex'
-import { QueryExecutor, ReadQueryExecutor, Query } from '../'
+import { ReadQueryExecutor, Query } from '../'
 
 declare const knex: Knex
 

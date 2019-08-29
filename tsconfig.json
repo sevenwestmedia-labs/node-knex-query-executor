@@ -3,7 +3,7 @@
     "compilerOptions": {
         "target": "es5",
         "module": "commonjs",
-        "lib": ["es2015"],
+        "lib": ["es5", "es2015"],
         "noEmit": true,
         "strict": true,
         "moduleResolution": "node",

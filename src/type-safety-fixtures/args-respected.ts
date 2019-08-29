@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ReadQueryExecutor } from '../'
 import { createMockedKnex } from '../test-helpers/knex'
 
 const testTables = {
-    tableOne: 'table-one'
+    tableOne: 'table-one',
 }
 
 export async function dontComplainAboutUnused() {
@@ -13,7 +14,7 @@ export async function dontComplainAboutUnused() {
         queryBuilderWrapper: query => {
             executedQuery = query.toString()
             return query
-        }
+        },
     })
 
     const query2 = async (_: any, args: string) => {
@@ -31,7 +32,7 @@ export async function dontComplainAboutUnused() {
             ;(() => args)()
             tables.tableOne()
             return {}
-        }
+        },
     )
 
     const query4 = async (_, args: { id: number }) => {

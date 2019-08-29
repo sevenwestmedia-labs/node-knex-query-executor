@@ -1,12 +1,8 @@
 import { MockQueryExecutor } from '.'
 
-const tables = {
-    tableOne: 'table-one',
-}
-
 it('can mock query', async () => {
     const queryExecutor = new MockQueryExecutor()
-    const exampleQuery = queryExecutor.createQuery<{}, number[]>(async ({}) => {
+    const exampleQuery = queryExecutor.createQuery<{}, number[]>(async () => {
         throw new Error('Should not be called')
     })
 
@@ -24,7 +20,7 @@ it('can mock query', async () => {
 it('can match specific query args', async () => {
     const queryExecutor = new MockQueryExecutor()
     const exampleQuery = queryExecutor.createQuery<{ param: string }, number>(
-        async ({}) => {
+        async () => {
             throw new Error('Should not be called')
         },
     )
@@ -40,7 +36,7 @@ it('can match specific query args', async () => {
     // Execute the query as normal
     const result = await queryExecutor.execute(exampleQuery, { param: 'first' })
     const result2 = await queryExecutor.execute(exampleQuery, {
-        param: 'other'
+        param: 'other',
     })
 
     expect(result).toEqual(1)
