@@ -1,12 +1,13 @@
 {
     "compilerOptions": {
         "noEmit": true,
-        "rootDir": "../",
+        "rootDir": "../../",
         "strict": true,
         "module": "commonjs",
         "moduleResolution": "node",
         "skipLibCheck": true,
         "esModuleInterop": true,
-        "lib": ["es2015"]
+        "lib": ["es2015"],
+        "typeRoots": ["../../@types"]
     }
 }
