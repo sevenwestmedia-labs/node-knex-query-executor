@@ -2,8 +2,8 @@
 
 exports[`Typescript: Typescript expected failures 1`] = `
 "src/type-safety-fixtures/args-respected.ts(38,27): error TS7006: Parameter '_' implicitly has an 'any' type.
-src/type-safety-fixtures/args-respected.ts(46,41): error TS2345: Argument of type '1' is not assignable to parameter of type 'object'.
-src/type-safety-fixtures/args-respected.ts(47,41): error TS2345: Argument of type '1' is not assignable to parameter of type 'string'.
+src/type-safety-fixtures/args-respected.ts(46,41): error TS2345: Argument of type 'number' is not assignable to parameter of type 'object'.
+src/type-safety-fixtures/args-respected.ts(47,41): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
 src/type-safety-fixtures/args-respected.ts(48,41): error TS2345: Argument of type '{}' is not assignable to parameter of type '{ id: number; }'.
   Property 'id' is missing in type '{}' but required in type '{ id: number; }'.
 src/type-safety-fixtures/args-respected.ts(49,41): error TS2345: Argument of type '{}' is not assignable to parameter of type '{ id: number; }'.
