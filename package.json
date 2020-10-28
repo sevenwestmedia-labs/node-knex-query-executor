@@ -12,7 +12,9 @@
         "build:cjs": "tsc --module commonjs --target es5 --outDir dist/cjs -p tsconfig.build.json",
         "lint": "eslint --ext .js,.ts .",
         "test": "jest",
-        "verify": "yarn tsc -p tsconfig.json && yarn test && yarn lint"
+        "verify": "yarn tsc -p tsconfig.json && yarn test && yarn lint",
+        "changeset": "changeset",
+        "release": "yarn verify && changeset publish"
     },
     "author": "Jake Ginnivan",
     "license": "MIT",
