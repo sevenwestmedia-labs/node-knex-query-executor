@@ -1,6 +1,6 @@
 {
     "name": "node-knex-query-executor",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "description": "TypeScript first encapsulation and reusability of knex database queries (JS version of Query Object Pattern really).",
     "main": "dist/cjs/index.js",
     "module": "dist/esm/index.js",
