@@ -1,4 +1,4 @@
-import knex from 'knex'
+import { knex } from 'knex'
 import mockDb from 'mock-knex'
 
 export function createMockedKnex(
