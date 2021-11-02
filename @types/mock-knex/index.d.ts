@@ -1,5 +1,5 @@
 declare module 'mock-knex' {
-    import Knex from 'knex'
+    import { Knex } from 'knex'
 
     export interface QueryDetails {
         response(value: any): void

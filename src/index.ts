@@ -1,4 +1,4 @@
-import * as Knex from 'knex'
+import { Knex } from 'knex'
 import { MockQueryExecutor, NoMatch } from './mock-query-executor'
 import { QueryExecutor } from './query-executor'
 import { ReadQueryExecutor } from './read-query-executor'
@@ -43,7 +43,7 @@ export type Query<
     Services extends object
 > = (
     options: QueryOptions<TTableNames, Services>,
-    args: QueryArguments
+    args: QueryArguments,
 ) => PromiseLike<QueryResult>
 
 export type ExecuteResult<Result> = PromiseLike<Result>
@@ -58,7 +58,7 @@ export type QueryWrapper =
     | {
           rawQueryWrapper?: (builder: Knex.Raw) => Knex.Raw
           queryBuilderWrapper?: (
-              builder: Knex.QueryBuilder
+              builder: Knex.QueryBuilder,
           ) => Knex.QueryBuilder
       }
 

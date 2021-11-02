@@ -1,4 +1,4 @@
-import * as Knex from 'knex'
+import { Knex } from 'knex'
 import { QueryWrapper, TableNames } from '.'
 import { QueryExecutor } from './query-executor'
 import { UnitOfWorkQueryExecutor } from './unit-of-work-query-executor'

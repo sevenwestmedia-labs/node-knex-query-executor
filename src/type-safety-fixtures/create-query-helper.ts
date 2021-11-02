@@ -1,4 +1,4 @@
-import * as Knex from 'knex'
+import { Knex } from 'knex'
 import { ReadQueryExecutor } from '../'
 
 declare const knex: Knex

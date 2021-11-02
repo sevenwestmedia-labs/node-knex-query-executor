@@ -1,4 +1,4 @@
-import Knex from 'knex'
+import { Knex } from 'knex'
 import {
     ExecuteResult,
     GetQueryArgs,
@@ -6,7 +6,7 @@ import {
     TableNames,
     Tables,
     Query,
-    QueryWrapper
+    QueryWrapper,
 } from '.'
 
 export class QueryExecutor<
@@ -26,7 +26,7 @@ export class QueryExecutor<
             acc[tableName] = () => {
                 return performWrap(
                     knex(tableNames[tableName as TTableNames]),
-                    this.wrapQuery
+                    this.wrapQuery,
                 )
             }
 
@@ -43,7 +43,7 @@ export class QueryExecutor<
 
     execute<Q extends Query<any, any, TTableNames, Services>>(
         query: Q,
-        args: GetQueryArgs<Q>
+        args: GetQueryArgs<Q>,
     ): ExecuteResult<GetQueryResult<Q>> {
         return query(
             {
@@ -54,16 +54,16 @@ export class QueryExecutor<
                 tables: this.tables,
                 args,
                 tableNames: this.tableNames,
-                    ...this.services,
+                ...this.services,
             },
-            args
+            args,
         )
     }
 }
 
 function performWrap(
     queryToWrap: Knex.QueryBuilder | Knex.Raw,
-    wrapper: QueryWrapper | undefined
+    wrapper: QueryWrapper | undefined,
 ) {
     if (!wrapper) {
         return queryToWrap
